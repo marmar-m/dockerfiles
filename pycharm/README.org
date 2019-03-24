@@ -1,0 +1,26 @@
+#+TITLE: PyCharm Dockerfile
+
+* Usage
+  - Start docker:
+	#+BEGIN_EXAMPLE
+	docker run -it -v /tmp/.X11-unix/:/tmp/.X11-unix/ -e DISPLAY=$DISPLAY --rm marmarm/pycharm
+	#+END_EXAMPLE
+  - Connect to host's X server[fn:1]: \\
+	The PyCharm docker needs to connect to the host's X server. To allow this, first
+	get the docker contain ID (=<containerId>=) by running =docker ps=, and then run:
+	#+BEGIN_EXAMPLE
+	xhost +local:<containerId>
+	#+END_EXAMPLE
+	which adds the container's hostname to the local family's list of permitted names.
+  - Start running PyCharm by running:
+	#+BEGIN_EXAMPLE
+	pycharm.sh & 
+	#+END_EXAMPLE
+  - When done with PyCharm Disconnect from host's X server run
+	#+BEGIN_EXAMPLE
+	xhost -local:<containerId>
+	#+END_EXAMPLE
+	to remove the container from xhost access control list.
+* Footnotes
+
+[fn:1] See http://wiki.ros.org/docker/Tutorials/GUI
